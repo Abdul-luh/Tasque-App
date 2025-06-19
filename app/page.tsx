@@ -6,7 +6,6 @@ export default function HomePage() {
   return (
     <div className="">
       <main className="p-4 bg-[#333] h-screen w-full ">
-        <Navbar />
         <article className="flex flex-col items-center justify-center h-full px-2">
           <h1 className="text-white text-5xl uppercase font-monoton py-4">
             <span className="text-[#3FA3FF]">tasque</span>app
