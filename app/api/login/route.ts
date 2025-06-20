@@ -13,6 +13,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    const { email, password } = body;
+
     // TODO: Implement actual authentication logic here.
     // This always returns "Login successful" as a placeholder.
 

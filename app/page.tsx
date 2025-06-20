@@ -6,8 +6,8 @@ export default function HomePage() {
     <div className="">
       <main className="p-4 bg-[#333] h-screen w-full ">
         <article className="flex flex-col items-center justify-center h-full px-2">
-          <h1 className="text-white text-5xl uppercase font-monoton py-4">
-            <span className="text-[#3FA3FF]">tasque</span>app
+          <h1 className="text-[#3FA3FF] text-5xl uppercase font-monoton py-4 mb-8">
+            tasque <span className="text-white">app</span>
           </h1>
           <p className="text-white text-3xl font-geist-sans max-w-2xl text-center py-4 px-8 my-4">
             Lorem ipsum <br /> dolor sit amet consectetur adipisicing elit.
