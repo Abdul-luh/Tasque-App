@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Monoton } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 import "./globals.css";
 
@@ -21,7 +22,20 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${monoton.variable} antialiased`}>{children}</body>
+      <body className={`${monoton.variable} antialiased`}>
+        {children}
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            className: "bg-gray-800 text-white",
+            style: {
+              fontSize: "16px",
+              padding: "10px 20px",
+            },
+          }}
+        />
+      </body>
     </html>
   );
 }

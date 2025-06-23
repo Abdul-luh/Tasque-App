@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function MultiStepForm() {
   const [step, setStep] = useState(1); // Track current step
@@ -52,7 +53,7 @@ export default function MultiStepForm() {
       nameEmailForm.handleSubmit((data) => {
         // Check if any field is empty
         if (!data.email || !data.firstName || !data.lastName) {
-          alert("Please fill in all fields.");
+          toast.error("Please fill in all fields.");
           return;
         }
         setFormData({ ...formData, ...data });
@@ -71,7 +72,7 @@ export default function MultiStepForm() {
     passwordForm.handleSubmit(async (data) => {
       // Check if any field is empty
       if (!data.password || !data.confirmPassword) {
-        alert("Please fill in all fields.");
+        toast.error("Please fill in all fields.");
         return;
       }
 
@@ -81,19 +82,19 @@ export default function MultiStepForm() {
       try {
         console.log("All data:", completeFormData);
         const res = await axios.post("/api/signup", completeFormData);
-        alert(res.data.message);
+        toast.success(res.data.message);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          alert(error.response?.data?.message || "An error occurred");
+          toast.error(error.response?.data?.message || "An error occurred");
         } else {
-          alert("An unexpected error occurred");
+          toast.error("An unexpected error occurred");
         }
       }
     })();
   };
 
   return (
-    <div className="bg-white flex flex-col justify-center items-center h-screen">
+    <div className="bg-white flex flex-col justify-center items-center min-h-screen">
       <h1 className="text-[#3FA3FF] text-5xl uppercase font-monoton py-4 mb-8">
         tasque <span className="text-black">app</span>
       </h1>

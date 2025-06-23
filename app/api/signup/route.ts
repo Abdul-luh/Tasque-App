@@ -19,7 +19,9 @@ export async function POST(request: NextRequest) {
     const { firstName, lastName, email, password } = validatedData;
 
     // Check if user already exists
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const existingUser = await prisma.tasqueUser.findUnique({
+      where: { email },
+    });
     if (existingUser) {
       return NextResponse.json(
         { message: "Email already in use" },
@@ -31,7 +33,7 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Save the user in the database
-    await prisma.user.create({
+    await prisma.tasqueUser.create({
       data: {
         firstName,
         lastName,
