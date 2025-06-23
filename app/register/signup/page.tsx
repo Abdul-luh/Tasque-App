@@ -2,8 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
+import { nameEmailSchema, passwordSchema } from "@/formSchema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,26 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import axios from "axios";
 import React, { useState } from "react";
-
-// Step 1 schema: email only
-const emailSchema = z.object({
-  email: z.string().min(2, { message: "Email must be at least 2 characters." }),
-});
-
-// Step 2 schema: password + confirmPassword
-const passwordSchema = z
-  .object({
-    password: z
-      .string()
-      .min(8, { message: "Password must be at least 8 characters." }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
 
 export default function MultiStepForm() {
   const [step, setStep] = useState(1); // Track current step
@@ -40,14 +21,20 @@ export default function MultiStepForm() {
   // State for storing data across steps
   const [formData, setFormData] = useState({
     email: "",
+    lastName: "",
+    firstName: "",
     password: "",
     confirmPassword: "",
   });
 
   // -------- Step 1: Get Email --------
-  const emailForm = useForm({
-    resolver: zodResolver(emailSchema),
-    defaultValues: { email: formData.email },
+  const nameEmailForm = useForm({
+    resolver: zodResolver(nameEmailSchema),
+    defaultValues: {
+      email: formData.email,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+    },
   });
 
   // -------- Step 2: Get Password --------
@@ -60,10 +47,15 @@ export default function MultiStepForm() {
   });
 
   const handleNext = () => {
+    // Save email to formData
     if (step === 1) {
-      emailForm.handleSubmit((data) => {
-        // Save email to formData
-        setFormData({ ...formData, email: data.email });
+      nameEmailForm.handleSubmit((data) => {
+        // Check if any field is empty
+        if (!data.email || !data.firstName || !data.lastName) {
+          alert("Please fill in all fields.");
+          return;
+        }
+        setFormData({ ...formData, ...data });
         setStep(2);
       })();
     }
@@ -75,17 +67,28 @@ export default function MultiStepForm() {
     }
   };
 
-  const handleSubmit = () => {
-    passwordForm.handleSubmit((data) => {
-      // Save password and confirmPassword
-      setFormData({
-        ...formData,
-        password: data.password,
-        confirmPassword: data.confirmPassword,
-      });
+  const handleFinalSubmit = () => {
+    passwordForm.handleSubmit(async (data) => {
+      // Check if any field is empty
+      if (!data.password || !data.confirmPassword) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
-      // You can now send formData to your API
-      console.log("All data:", { ...formData, ...data });
+      const completeFormData = { ...formData, ...data };
+      setFormData(completeFormData);
+
+      try {
+        console.log("All data:", completeFormData);
+        const res = await axios.post("/api/signup", completeFormData);
+        alert(res.data.message);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          alert(error.response?.data?.message || "An error occurred");
+        } else {
+          alert("An unexpected error occurred");
+        }
+      }
     })();
   };
 
@@ -96,7 +99,7 @@ export default function MultiStepForm() {
       </h1>
 
       {step === 1 && (
-        <Form {...emailForm}>
+        <Form {...nameEmailForm}>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -104,9 +107,44 @@ export default function MultiStepForm() {
             }}
             className="space-y-8 w-full max-w-[600px] mx-4"
           >
-            <h2 className="font-bold text-2xl text-center">Enter your email</h2>
+            <h2 className="font-bold text-2xl text-center">
+              Enter your name and email
+            </h2>
             <FormField
-              control={emailForm.control}
+              control={nameEmailForm.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="firstname:John"
+                      className="border border-[#E6E6E6] py-8 text-xl"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={nameEmailForm.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="lastname:Doe"
+                      className="border border-[#E6E6E6] py-8 text-xl"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={nameEmailForm.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
@@ -133,7 +171,7 @@ export default function MultiStepForm() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmit();
+              handleFinalSubmit();
             }}
             className="space-y-8 w-full max-w-[600px] mx-4"
           >

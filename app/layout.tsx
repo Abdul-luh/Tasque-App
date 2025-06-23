@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Monoton } from "next/font/google";
+
 import "./globals.css";
 
 const monoton = Monoton({
@@ -13,14 +14,14 @@ export const metadata: Metadata = {
   description: "basic crud app",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${monoton.variable}  antialiased`}>{children}</body>
+      <body className={`${monoton.variable} antialiased`}>{children}</body>
     </html>
   );
 }
