@@ -119,4 +119,8 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Apply Monoton font to elements with class 'font-monoton' */
+  .font-monoton {
+    font-family: var(--font-monoton);
+  }
 }

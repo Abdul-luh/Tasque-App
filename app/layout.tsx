@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Monoton } from "next/font/google";
+import { Toaster } from "react-hot-toast";
+
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const monoton = Monoton({
+  variable: "--font-monoton",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -17,17 +15,26 @@ export const metadata: Metadata = {
   description: "basic crud app",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${monoton.variable} antialiased`}>
         {children}
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            className: "bg-gray-800 text-white",
+            style: {
+              fontSize: "16px",
+              padding: "10px 20px",
+            },
+          }}
+        />
       </body>
     </html>
   );

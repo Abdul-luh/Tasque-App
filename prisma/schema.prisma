@@ -1,0 +1,30 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model TasqueUser {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
+  lastName  String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Tasque {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  checked      Boolean
+  body         String
+  allTasquesId String?     @db.ObjectId
+  allTasques   AllTasques? @relation(fields: [allTasquesId], references: [id])
+}
+
+model AllTasques {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  tasques Tasque[]
+}
