@@ -25,7 +25,7 @@ export default async function RootLayout({
       <body className={`${monoton.variable} antialiased`}>
         {children}
         <Toaster
-          position="top-right"
+          position="top-center"
           reverseOrder={false}
           toastOptions={{
             className: "bg-gray-800 text-white",

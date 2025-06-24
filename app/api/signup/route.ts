@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 // Example: import Prisma client
 import { PrismaClient } from "@prisma/client";
+
 // import bcrypt for hashing passwords
 import bcrypt from "bcrypt";
+
 // import zod for validation
 import { z } from "zod";
 import { userSchema } from "@/formSchema";
+import { sendVerificationEmail } from "@/lib/sendVerificationEmail";
+
+import crypto from "crypto";
+
 const prisma = new PrismaClient();
-// import database
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,6 +37,10 @@ export async function POST(request: NextRequest) {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // set to be available for only 48 hour
+    const verificationToken = crypto.randomUUID();
+    const verificationTokenExpiry = new Date(Date.now() + 1000 * 60 * 60 * 48);
+
     // Save the user in the database
     await prisma.tasqueUser.create({
       data: {
@@ -39,8 +48,17 @@ export async function POST(request: NextRequest) {
         lastName,
         email,
         password: hashedPassword,
+        emailVerificationToken: verificationToken,
+        emailVerificationTokenExpiry: verificationTokenExpiry,
       },
     });
+    const emailverification = await sendVerificationEmail(
+      firstName,
+      email,
+      verificationToken
+    );
+
+    console.log(emailverification);
 
     return NextResponse.json(
       { message: "User created successfully!" },
