@@ -15,7 +15,10 @@ export default function HomePage() {
           </p>
 
           <Button variant="default" className="mt-8 w-full bg-white p-4 h-16">
-            <Link href="/register" className="text-[#3FA3FF] text-[1.2rem]">
+            <Link
+              href="/register/signup"
+              className="text-[#3FA3FF] text-[1.2rem]"
+            >
               Get Started
             </Link>
           </Button>

@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function MultiStepForm() {
   // State for storing data across steps
@@ -26,6 +27,15 @@ export default function MultiStepForm() {
     password: "",
     confirmPassword: "",
   });
+
+  const searchParams = useSearchParams();
+  const verified = searchParams.get("verified");
+
+  useEffect(() => {
+    if (verified === "true") {
+      toast.success("Email verified! You can now log in.");
+    }
+  }, [verified]);
 
   // -------- Step 1: Get Email --------
   const loginForm = useForm({

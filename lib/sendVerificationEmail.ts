@@ -24,7 +24,7 @@ export async function sendVerificationEmail(
   // Actual email logic with Resend. Other: (Nodemailer/Resend/SendGrid etc.)
   try {
     const { data, error } = await resend.emails.send({
-      from: "TasqueApp <no-reply@tasqueapp.com>",
+      from: "TasqueApp <onboarding@resend.dev>",
       to: email,
       subject: "Verify your TasqueApp account",
       react: EmailTemplate({ firstName, verificationUrl }),

@@ -80,7 +80,7 @@ export default function MultiStepForm() {
       setFormData(completeFormData);
 
       try {
-        console.log("All data:", completeFormData);
+        console.log("Sent data:", completeFormData);
         const res = await axios.post("/api/signup", completeFormData);
         console.log(res.data);
         setTimeout(() => {

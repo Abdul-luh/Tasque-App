@@ -11,6 +11,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: "Token is required" }, { status: 400 });
   }
 
+  // Find the user with the provided token and check if it's still valid
+  // The token should be valid for 48 hours, so we check if the expiry date
   const user = await prisma.tasqueUser.findFirst({
     where: {
       emailVerificationToken: token,
@@ -20,6 +22,7 @@ export async function GET(req: NextRequest) {
     },
   });
 
+  // If no user is found or the token is invalid/expired, return an error
   if (!user) {
     return NextResponse.json(
       { message: "Invalid or expired token" },
@@ -27,7 +30,13 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  await prisma.tasqueUser.update({
+  // If the user is found, update their verification status
+  // and clear the verification token and expiry date
+  // This marks the user as verified
+  // and allows them to log in
+
+  // ✅ Separate updated user into verifiedUser
+  const verifiedUser = await prisma.tasqueUser.update({
     where: { id: user.id },
     data: {
       isVerified: true,
@@ -36,12 +45,19 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  if (!user.isVerified) {
+  // check if the user is already verified
+  if (!verifiedUser.isVerified) {
     return NextResponse.json(
       { message: "Please verify your email before logging in." },
       { status: 403 }
     );
   }
 
-  return NextResponse.redirect(`${process.env.DOMAIN}/login?verified=true`);
+  return NextResponse.json({
+    status: "success",
+    message: "Email verified successfully. You can now log in.",
+    user: {
+      isVerified: verifiedUser.isVerified,
+    },
+  });
 }

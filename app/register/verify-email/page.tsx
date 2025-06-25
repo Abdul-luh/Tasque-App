@@ -1,28 +1,67 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
+
+type VerifyStatus = "verifying" | "success" | "error";
 
 export default function VerifyEmailPage() {
-  const [status, setStatus] = useState("verifying");
+  const [status, setStatus] = useState<VerifyStatus>("verifying");
+  const [message, setMessage] = useState("");
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
+  const router = useRouter();
 
   useEffect(() => {
     async function verify() {
-      const res = await fetch(`/api/verify-email?token=${token}`);
-      if (res.ok) setStatus("success");
-      else setStatus("error");
+      try {
+        const res = await axios.get(`/api/verify-email?token=${token}`);
+        console.log(res.data);
+        if (res.status === 200) {
+          setStatus("success");
+          setMessage(res.data.message);
+        } else {
+          setStatus("error");
+          setMessage(res.data.message || "Verification failed.");
+        }
+      } catch (err: unknown) {
+        const error = err as AxiosError<{ message?: string }>;
+
+        console.error("Verification failed:", error);
+        setStatus("error");
+        setMessage(
+          error?.response?.data?.message ||
+            "Something went wrong during verification."
+        );
+      }
     }
 
     if (token) verify();
-    else setStatus("error");
+    else {
+      setStatus("error");
+      setMessage("No token provided.");
+    }
   }, [token]);
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      {status === "verifying" && <p>Verifying your email...</p>}
-      {status === "success" && <p className="text-green-600">Email verified! 🎉</p>}
-      {status === "error" && <p className="text-red-600">Invalid or expired token.</p>}
+    <div className="h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white rounded-xl p-8 shadow-md max-w-md w-full text-center">
+        <h1 className="text-2xl font-bold mb-4">
+          {status === "verifying" && "Verifying..."}
+          {status === "success" && "✅ Email Verified!"}
+          {status === "error" && "❌ Verification Failed"}
+        </h1>
+        <p className="text-gray-700 mb-6">{message}</p>
+
+        {status === "success" && (
+          <button
+            onClick={() => router.push("/register/login?verified=true")}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition"
+          >
+            Continue to Login
+          </button>
+        )}
+      </div>
     </div>
   );
 }
