@@ -23,10 +23,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${monoton.variable} antialiased`}
-        style={{ fontFamily: "var(--font-monoton), sans-serif" }}
-      >
+      <body className={`${monoton.variable} antialiased`}>
         {children}
         <Toaster
           position="top-center"
