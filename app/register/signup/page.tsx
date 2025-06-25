@@ -57,7 +57,7 @@ export default function MultiStepForm() {
           return;
         }
         setFormData({ ...formData, ...data });
-        setStep(2);
+        setStep((prev) => ++prev);
       })();
     }
   };
@@ -80,9 +80,12 @@ export default function MultiStepForm() {
       setFormData(completeFormData);
 
       try {
-        console.log("All data:", completeFormData);
+        console.log("Sent data:", completeFormData);
         const res = await axios.post("/api/signup", completeFormData);
-        toast.success(res.data.message);
+        console.log(res.data);
+        setTimeout(() => {
+          toast.success(res.data.message);
+        }, 1000);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast.error(error.response?.data?.message || "An error occurred");

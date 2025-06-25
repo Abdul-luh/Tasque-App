@@ -1,10 +1,10 @@
-import Login from "@/(components)/Login";
+import VerifyEmail from "@/(components)/VerifyEmail";
 import React, { Suspense } from "react";
 
-export default function LoginPage() {
+export default function VerifyEmailPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Login />
+      <VerifyEmail />
     </Suspense>
   );
 }
