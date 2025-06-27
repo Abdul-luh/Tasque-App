@@ -6,6 +6,7 @@ import {motion} from "framer-motion";
 =======
 import { motion } from "framer-motion";
 import Image from "next/image";
+
 >>>>>>> df11cfcf7ac8814b72e989d7fe83fa4cf07a5347
 
 export default function HeroSection() {
