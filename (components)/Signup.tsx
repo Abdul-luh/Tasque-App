@@ -15,8 +15,8 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { signIn } from "next-auth/react";
-import Image from "next/image";
+import GoogleButton from "./GoogleButton";
+import Link from "next/link";
 
 export default function SignUpPage() {
   const [step, setStep] = useState(1); // Track current step
@@ -247,21 +247,16 @@ export default function SignUpPage() {
           <span className="mx-4 text-gray-500 font-medium uppercase">or</span>
           <hr className="flex-grow border-t border-gray-300" />
         </div>
-        <Button
-          type="button"
-          onClick={() => signIn("google")}
-          className="w-full flex items-center justify-center gap-3 bg-[#f5f5f5] border border-gray-300 rounded-lg py-8 text-xl capitalize hover:bg-gray-100 transition cursor-pointer"
-        >
-          <Image
-            src="/Google.png"
-            alt="Google logo"
-            width={20}
-            height={20}
-          />
-          <span className="text-sm font-medium text-black">
-            Continue with Google
-          </span>
-        </Button>
+        <GoogleButton />
+        <p className="mt-6 text-center text-gray-700 text-lg">
+          already have an account?{" "}
+          <Link
+            href="/register/login"
+            className="text-[#3FA3FF] hover:underline font-semibold"
+          >
+            login
+          </Link>
+        </p>
       </div>
     </div>
   );
