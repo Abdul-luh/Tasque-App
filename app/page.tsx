@@ -33,10 +33,10 @@ export default function HeroSection() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          <Button className="text-lg px-6 py-3">Try It Now</Button>
-          <Button variant="outline" className="text-lg px-6 py-3">
+          <Button className="text-lg px-6 py-3">Get Started</Button>
+          {/* <Button variant="outline" className="text-lg px-6 py-3">
             Add Your First Task
-          </Button>
+          </Button> */}
         </motion.div>
       </div>
 
