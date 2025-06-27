@@ -1,49 +1,60 @@
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
-export default function HomePage() {
+export default function HeroSection() {
   return (
-    <div className="">
-      <main className="p-4 bg-[#333] h-screen w-full ">
-        <article className="flex flex-col items-center justify-center h-full px-2">
-          <h1 className="text-[#3FA3FF] text-5xl uppercase font-monoton py-4 mb-8">
-            tasque <span className="text-white">app</span>
-          </h1>
-          <p className="text-white text-3xl font-geist-sans max-w-2xl text-center py-4 px-8 my-4">
-            Lorem ipsum <br /> dolor sit amet consectetur adipisicing elit.
-            Vero, eaque!
-          </p>
+    <section className="bg-gradient-to-br from-purple-50 to-blue-50 min-h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-20 py-16">
+      {/* Text Content */}
+      <div className="max-w-xl text-center md:text-left space-y-6">
+        <motion.h1
+          className="text-4xl md:text-5xl font-bold text-gray-800"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          Because Done Feels Good.
+        </motion.h1>
 
-          <Button variant="default" className="mt-8 w-full bg-white p-4 h-16">
-            <Link
-              href="/register/signup"
-              className="text-[#3FA3FF] text-[1.2rem]"
-            >
-              Get Started
-            </Link>
+        <motion.p
+          className="text-lg text-gray-600"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          Turn everyday chaos into calm. With clean lists, smart reminders, and
+          zero clutter, our to-do app helps you stay focused, stress-free, and
+          in control—your way.
+        </motion.p>
+
+        <motion.div
+          className="flex flex-col sm:flex-row items-center gap-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+        >
+          <Button className="text-lg px-6 py-3">Try It Now</Button>
+          <Button variant="outline" className="text-lg px-6 py-3">
+            Add Your First Task
           </Button>
-        </article>
-      </main>
-      <footer>
-        <div className="text-center p-4 ">
-          <div className="flex flex-col items-center justify-center max-w-[70%] mx-auto">
-            <h3 className="text-[#3FA3FF] font-bold text-2xl uppercase py-4">
-              About
-            </h3>
+        </motion.div>
+      </div>
 
-            <p className="text-2xl">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Harum at
-              possimus magni ullam accusantium, nemo unde soluta laborum quos
-              nisi quas ipsa, neque, voluptate voluptas perferendis adipisci
-              perspiciatis vel accusamus.
-            </p>
-            <hr className=" my-8 w-[75%] h-[3px] bg-[#000]" />
-          </div>
-          <p className="text-sm">
-            &copy; {new Date().getFullYear()} Tasque App. All rights reserved.
-          </p>
-        </div>
-      </footer>
-    </div>
+      {/* Image Content */}
+      <motion.div
+        className="mt-12 md:mt-0"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.3, duration: 0.6 }}
+      >
+        <Image
+          src="/images/todo-app-mockup.png" // Replace with your app screenshot
+          alt="To-Do App Mockup"
+          width={500}
+          height={400}
+          className="rounded-2xl shadow-xl"
+        />
+      </motion.div>
+    </section>
   );
 }
