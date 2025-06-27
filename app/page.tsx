@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import {motion} from "framer-motion";
-import image from "next/image";
-import Link from "next/link";
+// import image from "next/image";
+// import Link from "next/link";
 
 export default function HomePage() {
   return (
@@ -44,13 +44,13 @@ export default function HomePage() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.3, duration: 0.6 }}
       >
-        <Image
+        {/* <Image
           src="/images/todo-app-mockup.png" 
           alt="To-Do App Mockup"
           width={500}
           height={400}
           className="rounded-2xl shadow-xl"
-        />
+        /> */}
       </motion.div>
     </section>
   );

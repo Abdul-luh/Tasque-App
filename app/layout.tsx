@@ -12,7 +12,8 @@ const monoton = Monoton({
 
 export const metadata: Metadata = {
   title: "Tasque App",
-  description: "basic crud app",
+  description:
+    "Tasques app is a task management application that helps you organize your tasks efficiently.",
 };
 
 export default async function RootLayout({
@@ -21,11 +22,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${monoton.variable} antialiased`}>
         {children}
         <Toaster
-          position="top-right"
+          position="top-center"
           reverseOrder={false}
           toastOptions={{
             className: "bg-gray-800 text-white",
