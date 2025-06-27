@@ -13,6 +13,8 @@ model TasqueUser {
   lastName  String
   email     String   @unique
   password  String
+  provider  String   @default("credentials")
+  image     String?
   createdAt DateTime @default(now())
   isVerified                Boolean  @default(false)
   emailVerificationToken    String?

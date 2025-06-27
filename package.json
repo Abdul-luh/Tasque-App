@@ -18,7 +18,11 @@
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+<<<<<<< HEAD
     "framer-motion": "^12.19.1",
+=======
+    "framer-motion": "^12.19.2",
+>>>>>>> df11cfcf7ac8814b72e989d7fe83fa4cf07a5347
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.515.0",
     "mongodb": "^6.17.0",

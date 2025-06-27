@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Monoton } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-
 import "./globals.css";
+import SessionProviderWrapper from "@/(components)/SessionProviderWrapper";
 
 const monoton = Monoton({
   variable: "--font-monoton",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "Tasques app is a task management application that helps you organize your tasks efficiently.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -24,7 +24,12 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${monoton.variable} antialiased`}>
-        {children}
+        <SessionProviderWrapper>
+          {" "}
+          {/* ✅ Wrap children in SessionProvider */}
+          {children}
+        </SessionProviderWrapper>
+
         <Toaster
           position="top-center"
           reverseOrder={false}

@@ -17,6 +17,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import GoogleButton from "./GoogleButton";
 
 export default function Login() {
   // State for storing data across steps
@@ -137,13 +138,24 @@ export default function Login() {
         <Link
           href="/register/forgot-password"
           type="button"
-          className="mt-4 text-[#3FA3FF] hover:underline text-lg font-semibold"
+          className="my-4 text-[#3FA3FF] hover:underline text-lg font-semibold"
           onClick={() => {
             // Add your forgot password logic here
           }}
         >
           Forgot password?
         </Link>
+        <GoogleButton />
+
+        <p className="mt-6 text-center text-gray-700 text-lg">
+          Don&apos;t have an account?{" "}
+          <Link
+            href="/register/signup"
+            className="text-[#3FA3FF] hover:underline font-semibold"
+          >
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );
