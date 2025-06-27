@@ -13,10 +13,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import GoogleButton from "./GoogleButton";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
   const [step, setStep] = useState(1); // Track current step
@@ -97,6 +99,24 @@ export default function SignUpPage() {
       }
     })();
   };
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const msg = searchParams.get("msg");
+    if (msg) {
+      toast.success(msg);
+
+      // Route only if the message is one of these:
+      if (msg === "Login successful!" || msg === "User created successfully!") {
+        const delay = setTimeout(() => {
+          router.push("/dashboard");
+        }, 2000); // Let toast show first
+
+        return () => clearTimeout(delay); // Cleanup
+      }
+    }
+  }, [searchParams, router]);
 
   return (
     <div className="bg-white flex flex-col justify-center items-center min-h-screen">
